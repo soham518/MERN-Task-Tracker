@@ -94,7 +94,7 @@ function App() {
                 className="delete-btn"
                 onClick={() => deleteTask(task._id)}
               >
-                Delete
+                Delete Task
               </button>
             </div>
           </div>
