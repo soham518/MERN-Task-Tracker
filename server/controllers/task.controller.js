@@ -1,11 +1,11 @@
 import { Task } from "../models/task.modle.js";
 
-// CREATE a new task
+
 export const createTask = async (req, res) => {
   try {
+    console.log(req.body);
     const { taskName, description, isCompleted } = req.body;
-
-    // Basic validation
+    console.log(taskName, description, isCompleted);
     if (!taskName || !description) {
       return res.status(400).json({
         success: false,
@@ -17,16 +17,18 @@ export const createTask = async (req, res) => {
       taskName,
       description,
       isCompleted,
+      user: req.user.id // attach logged in user
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: "Task created successfully",
       task: newTask,
     });
+
   } catch (error) {
     console.error("Error creating task:", error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "Internal Server Error",
     });
@@ -36,7 +38,7 @@ export const createTask = async (req, res) => {
 // GET all tasks
 export const getAllTasks = async (req, res) => {
   try {
-    const tasks = await Task.find();
+    const tasks = await Task.find({ user: req.user.id });
 
     res.status(200).json({
       success: true,
@@ -46,7 +48,7 @@ export const getAllTasks = async (req, res) => {
     console.error("Error fetching tasks:", error);
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: "Internal Server Error",error
     });
   }
 };

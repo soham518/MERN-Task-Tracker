@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from "cors";
 import taskRoutes from "./routes/task.routes.js";
-
+import userRoutes from './routes/user.routes.js'
 dotenv.config({ path: './.env' });
 
 const app = express();
@@ -21,7 +21,7 @@ app.use(cors({
 
 // ROUTES
 app.use("/api", taskRoutes);
-
+app.use("/api/auth",userRoutes);
 app.get('/', (req, res) => {
   res.json({
     "message": "Server is running"
