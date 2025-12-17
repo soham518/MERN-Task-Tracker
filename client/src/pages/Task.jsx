@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./Task.css";
 
 const Task = () => {
   const [tasks, setTasks] = useState([]);
@@ -7,14 +8,12 @@ const Task = () => {
 
   const token = localStorage.getItem("token");
 
-  // Fetch Tasks
   const fetchTasks = async () => {
     const res = await fetch("http://localhost:1000/api/tasks", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-
     const data = await res.json();
     setTasks(data.tasks || []);
   };
@@ -23,7 +22,6 @@ const Task = () => {
     fetchTasks();
   }, []);
 
-  // Add Task
   const addTask = async () => {
     if (!taskName || !description) return alert("All fields required");
 
@@ -41,7 +39,6 @@ const Task = () => {
     fetchTasks();
   };
 
-  // Toggle Completion
   const toggleComplete = async (id, current) => {
     await fetch(`http://localhost:1000/api/tasks/${id}`, {
       method: "PUT",
@@ -55,7 +52,6 @@ const Task = () => {
     fetchTasks();
   };
 
-  // Delete Task
   const deleteTask = async (id) => {
     await fetch(`http://localhost:1000/api/tasks/${id}`, {
       method: "DELETE",
@@ -68,7 +64,7 @@ const Task = () => {
   };
 
   return (
-    <div className="container">
+    <div className="task-container">
       <h1>Your Task Tracker</h1>
 
       <div className="add-section">
@@ -89,7 +85,7 @@ const Task = () => {
 
       <div className="task-list">
         {tasks.map((task) => (
-          <div className="task" key={task._id}>
+          <div className="task-card" key={task._id}>
             <div>
               <h3 className={task.isCompleted ? "completed" : ""}>
                 {task.taskName}
@@ -109,7 +105,7 @@ const Task = () => {
                 className="delete-btn"
                 onClick={() => deleteTask(task._id)}
               >
-                Delete Task
+                Delete
               </button>
             </div>
           </div>

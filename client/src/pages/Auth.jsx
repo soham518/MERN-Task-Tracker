@@ -43,14 +43,7 @@ const Auth = () => {
   };
 
 return (
-  <div
-    style={{
-      minHeight: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    }}
-  >
+  <div className="center-wrapper">
     <div className="auth-container">
       <h2>{isLogin ? "Login" : "Register"}</h2>
 
