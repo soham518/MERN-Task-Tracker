@@ -54,8 +54,8 @@ body {
   transition: border-color 0.2s ease;
 }
 
-.auth-container input:focus {
-  border-color: #007bff;
+.auth-container input {
+  color: #1f2937; /* dark text */
 }
 
 .auth-container button {
