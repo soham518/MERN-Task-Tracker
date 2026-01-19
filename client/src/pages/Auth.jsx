@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
-  let variable1 = "variable 1"
+  // let variable1 = "variable 1"
   //this is an unused variable to check working of ci in github actions
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
