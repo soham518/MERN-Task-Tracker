@@ -8,6 +8,7 @@ const Task = () => {
 
   const token = localStorage.getItem("token");
 
+  // ✅ Reusable fetch for handlers (NOT used in useEffect)
   const fetchTasks = async () => {
     const res = await fetch("http://localhost:1000/api/tasks", {
       headers: {
@@ -15,15 +16,27 @@ const Task = () => {
       },
     });
     const data = await res.json();
-    setTasks(data.tasks || []);
+    return data.tasks || [];
   };
 
+  // ✅ ESLint-safe effect
   useEffect(() => {
-    fetchTasks();
-  }, []);
+    fetch("http://localhost:1000/api/tasks", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setTasks(data.tasks || []);
+      });
+  }, [token]);
 
   const addTask = async () => {
-    if (!taskName || !description) return alert("All fields required");
+    if (!taskName || !description) {
+      alert("All fields required");
+      return;
+    }
 
     await fetch("http://localhost:1000/api/tasks", {
       method: "POST",
@@ -36,7 +49,9 @@ const Task = () => {
 
     setTaskName("");
     setDescription("");
-    fetchTasks();
+
+    const updatedTasks = await fetchTasks();
+    setTasks(updatedTasks);
   };
 
   const toggleComplete = async (id, current) => {
@@ -49,7 +64,8 @@ const Task = () => {
       body: JSON.stringify({ isCompleted: !current }),
     });
 
-    fetchTasks();
+    const updatedTasks = await fetchTasks();
+    setTasks(updatedTasks);
   };
 
   const deleteTask = async (id) => {
@@ -60,7 +76,8 @@ const Task = () => {
       },
     });
 
-    fetchTasks();
+    const updatedTasks = await fetchTasks();
+    setTasks(updatedTasks);
   };
 
   return (

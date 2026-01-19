@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from "cors";
 import taskRoutes from "./routes/task.routes.js";
-import userRoutes from './routes/user.routes.js'
+import userRoutes from './routes/user.routes.js';
 dotenv.config({ path: './.env' });
 
 const app = express();
